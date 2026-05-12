@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BikeWrench Pro - Login/Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="login-style.css">
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-motorcycle"></i>
+                    <span>BikeWrench Pro</span>
+                </a>
+            </div>
+
+            <!-- Login Tab -->
+            <div class="auth-tab active" id="loginTab">
+                <h2>Welcome Back</h2>
+                <p>Sign in to your account</p>
+
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="login-role-toggle">
+                        <button type="button" class="login-role active" data-role="customer" onclick="selectLoginRole('customer')">
+                            Customer
+                        </button>
+                        <button type="button" class="login-role" data-role="mechanic" onclick="selectLoginRole('mechanic')">
+                            Mechanic
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label>Email or Phone</label>
+                        <input type="text" id="loginEmail" placeholder="email@example.com or 9876543210" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter password" required>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="remember">
+                            <input type="checkbox"> Remember me
+                        </label>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                        Sign In
+                    </button>
+                </form>
+
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+
+                <div class="social-login">
+                    <button class="social-btn google" onclick="loginWithGoogle()">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                    <button class="social-btn facebook" onclick="loginWithFacebook()">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </button>
+                </div>
+
+                <p class="auth-footer">
+                    Don't have an account? <a href="#" onclick="switchTab('register')">Sign up</a>
+                </p>
+            </div>
+
+            <!-- Register Tab -->
+            <div class="auth-tab" id="registerTab">
+                <h2>Create Account</h2>
+                <p>Choose your role and get started</p>
+
+                <!-- Role Selection -->
+                <div class="role-selector" id="roleSelector">
+                    <div class="role-option" onclick="selectRole('customer')">
+                        <div class="role-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <h4>Customer</h4>
+                        <p>Book services & buy spare parts</p>
+                    </div>
+
+                    <div class="role-option" onclick="selectRole('mechanic')">
+                        <div class="role-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h4>Mechanic</h4>
+                        <p>Offer services & grow your business</p>
+                    </div>
+                </div>
+
+                <!-- Customer Registration -->
+                <form id="customerForm" class="registration-form" style="display:none;" onsubmit="handleCustomerRegister(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" placeholder="John Doe" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="email@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" placeholder="9876543210" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" placeholder="e.g., Bangalore" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="Create a password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" placeholder="Confirm password" required>
+                    </div>
+
+                    <label class="checkbox">
+                        <input type="checkbox" required>
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                    </label>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                        Create Account
+                    </button>
+                </form>
+
+                <!-- Mechanic Registration -->
+                <form id="mechanicForm" class="registration-form" style="display:none;" onsubmit="handleMechanicRegister(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" placeholder="9876543210" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Shop Name</label>
+                        <input type="text" placeholder="Your Bike Service Shop" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="shop@example.com" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Years of Experience</label>
+                            <input type="number" min="1" placeholder="e.g., 5" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Average Service Time (hrs)</label>
+                            <input type="number" min="1" step="0.5" placeholder="e.g., 2" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Specialties (comma-separated)</label>
+                        <textarea placeholder="e.g., Engine Repair, Brake Service, Electrical Work" rows="2" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Location/Address</label>
+                        <textarea placeholder="Your shop address" rows="2" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="Create a password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" placeholder="Confirm password" required>
+                    </div>
+
+                    <label class="checkbox">
+                        <input type="checkbox" required>
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                    </label>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                        Register as Mechanic
+                    </button>
+                </form>
+
+                <p class="auth-footer">
+                    Already have an account? <a href="#" onclick="switchTab('login')">Sign in</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="auth-info">
+            <div class="info-item">
+                <div class="info-icon"><i class="fas fa-shield-alt"></i></div>
+                <h4>Secure & Trusted</h4>
+                <p>Your data is encrypted and protected</p>
+            </div>
+            <div class="info-item">
+                <div class="info-icon"><i class="fas fa-lock"></i></div>
+                <h4>Privacy First</h4>
+                <p>We never share your information</p>
+            </div>
+            <div class="info-item">
+                <div class="info-icon"><i class="fas fa-headset"></i></div>
+                <h4>24/7 Support</h4>
+                <p>Always here to help you</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="login-script.js"></script>
+</body>
+</html>
