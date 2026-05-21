@@ -34,6 +34,14 @@
           <li><a href="#testimonials" class="nav-link">Reviews</a></li>
           <li><a href="#booking" class="nav-link">Book Now</a></li>
           <li><a href="#contact" class="nav-link">Contact</a></li>
+          <li class="mobile-menu-group">
+            <button class="btn btn-secondary mobile-menu-btn" id="mobileAuthBtn" onclick="handleAuthClick(event)">
+              <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            <button class="dark-toggle mobile-menu-btn mobile-dark-toggle" id="mobileDarkToggle" onclick="toggleDarkMode()" title="Toggle dark mode">
+              <i class="fas fa-moon" id="mobileDarkIcon"></i> Dark Mode
+            </button>
+          </li>
         </ul>
         <div class="nav-actions">
           <button

@@ -313,6 +313,10 @@ function handleAuthClick(event) {
   const authMenu = document.getElementById("authMenu");
   if (user && user.loggedIn) {
     event.stopPropagation();
+    if (window.innerWidth <= 992) {
+      goToDashboard();
+      return;
+    }
     authMenu.style.display = authMenu.style.display === "block" ? "none" : "block";
     return;
   }
@@ -326,6 +330,7 @@ function closeAuthMenu() {
 
 function updateAuthButton() {
   const authBtn = document.getElementById("authBtn");
+  const mobileAuthBtn = document.getElementById("mobileAuthBtn");
   const user = getCurrentUser();
   if (!authBtn) return;
   if (user && user.loggedIn) {
@@ -333,10 +338,18 @@ function updateAuthButton() {
     authBtn.innerHTML = `<i class="fas fa-user"></i> ${displayName} <i class="fas fa-chevron-down"></i>`;
     authBtn.classList.remove("btn-secondary");
     authBtn.classList.add("btn-primary");
+    if (mobileAuthBtn) {
+      mobileAuthBtn.innerHTML = `<i class="fas fa-user"></i> ${displayName}`;
+      mobileAuthBtn.className = authBtn.className + " mobile-menu-btn";
+    }
   } else {
     authBtn.innerHTML = `<i class="fas fa-sign-in-alt"></i> Login`;
     authBtn.classList.remove("btn-primary");
     authBtn.classList.add("btn-secondary");
+    if (mobileAuthBtn) {
+      mobileAuthBtn.innerHTML = `<i class="fas fa-sign-in-alt"></i> Login`;
+      mobileAuthBtn.className = authBtn.className + " mobile-menu-btn";
+    }
   }
 }
 
@@ -989,9 +1002,10 @@ function showToast(message, type = "success") {
 function toggleDarkMode() {
   document.body.classList.toggle("dark-mode");
   const isDark = document.body.classList.contains("dark-mode");
-  document.getElementById("darkIcon").className = isDark
-    ? "fas fa-sun"
-    : "fas fa-moon";
+  const darkIcon = document.getElementById("darkIcon");
+  const mobileDarkIcon = document.getElementById("mobileDarkIcon");
+  if (darkIcon) darkIcon.className = isDark ? "fas fa-sun" : "fas fa-moon";
+  if (mobileDarkIcon) mobileDarkIcon.className = isDark ? "fas fa-sun" : "fas fa-moon";
   localStorage.setItem("bwp-dark", isDark ? "1" : "0");
 }
 
@@ -1099,6 +1113,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("bwp-dark") === "1") {
     document.body.classList.add("dark-mode");
     document.getElementById("darkIcon").className = "fas fa-sun";
+    const mobileDarkIcon = document.getElementById("mobileDarkIcon");
+    if (mobileDarkIcon) mobileDarkIcon.className = "fas fa-sun";
   }
 
   renderMechanics();
